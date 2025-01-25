@@ -25,7 +25,6 @@ func NewCSRService() CSRService {
 }
 
 func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error) {
-	// Generate private key
 	var privateKey interface{}
 	var err error
 
@@ -53,7 +52,6 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		return model.CSRResponse{}, fmt.Errorf("failed to generate private key: %w", err)
 	}
 
-	// Parse IP addresses
 	var ipAddresses []net.IP
 	for _, ip := range req.IPAddresses {
 		if parsedIP := net.ParseIP(ip); parsedIP != nil {
@@ -63,7 +61,6 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		}
 	}
 
-	// Set signature algorithm
 	var sigAlgo x509.SignatureAlgorithm
 	switch req.SignatureAlgorithm {
 	case "SHA256WithRSA":
@@ -82,7 +79,6 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		return model.CSRResponse{}, fmt.Errorf("invalid signature algorithm: %s", req.SignatureAlgorithm)
 	}
 
-	// Create CSR template
 	template := &x509.CertificateRequest{
 		Subject: pkix.Name{
 			CommonName:         req.CommonName,
@@ -98,19 +94,16 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		EmailAddresses:     []string{req.EmailAddress},
 	}
 
-	// Generate CSR
 	csrBytes, err := x509.CreateCertificateRequest(rand.Reader, template, privateKey)
 	if err != nil {
 		return model.CSRResponse{}, fmt.Errorf("failed to create CSR: %w", err)
 	}
 
-	// Encode CSR to PEM
 	csrPEM := pem.EncodeToMemory(&pem.Block{
 		Type:  "CERTIFICATE REQUEST",
 		Bytes: csrBytes,
 	})
 
-	// Encode private key to PEM
 	var privateKeyBytes []byte
 	var privateKeyType string
 
