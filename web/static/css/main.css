@@ -14,7 +14,7 @@
 
 body { 
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--bg-color);
@@ -54,6 +54,8 @@ h1 {
 
 .controls-wrapper {
     display: flex;
+    justify-content: space-evenly;
+    min-width: 300px;
     gap: 20px;
     align-items: center;
 }
@@ -160,9 +162,60 @@ button:hover {
     background-color: #45a049;
 }
 
+.result-section {
+    margin-bottom: 20px;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.version {
+    color: var(--text-color);
+    opacity: 0.6;
+    font-size: 14px;
+}
+
+.copy-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.copy-button:hover {
+    background-color: var(--input-border);
+}
+
+.copy-icon {
+    font-size: 16px;
+}
+
+.pre-container {
+    position: relative;
+    margin-top: 10px;
+}
+
+.pre-container .copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
 pre {
     background-color: var(--input-bg);
     padding: 15px;
     border-radius: 4px;
     overflow-x: auto;
+    margin: 0;
 }

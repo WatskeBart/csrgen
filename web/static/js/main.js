@@ -72,3 +72,69 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLang = localStorage.getItem('lang') || 'en';
+    loadTranslations(currentLang);
+});
+
+async function loadTranslations(lang) {
+    try {
+        const response = await fetch(`/static/js/i18n/${lang}.js`);
+        const text = await response.text();
+        const translations = (new Function(text + '; return translations;'))();
+        translatePage(translations);
+    } catch (error) {
+        console.error('Error loading translations:', error);
+    }
+}
+
+function translatePage(translations) {
+    document.querySelector('h1').textContent = translations.title;
+    
+    Object.entries(translations).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+            const element = document.querySelector(`[data-i18n="${key}"]`);
+            if (element) {
+                const label = element.querySelector('label');
+                const subtext = element.querySelector('.subtext');
+                if (label) label.childNodes[0].textContent = value.label + ':';
+                if (subtext) subtext.textContent = value.subtext;
+            }
+        }
+    });
+    
+    const resultDiv = document.getElementById('result');
+    if (resultDiv) {
+        const headings = resultDiv.getElementsByTagName('h2');
+        headings[0].textContent = translations.results.generatedCSR;
+        headings[1].textContent = translations.results.privateKey;
+    }
+
+    document.querySelector('[data-i18n="generate"]').textContent = translations.buttons.generate;
+    document.querySelector('[data-i18n="darkMode"]').textContent = translations.buttons.darkMode;
+    document.querySelector('[data-i18n="advanced"]').textContent = translations.buttons.advanced;
+    document.querySelectorAll('[data-i18n="copy"]').forEach(element => {
+        element.textContent = translations.buttons.copy;
+    });
+}
+
+function handleLanguageChange(event) {
+    const lang = event.target.value;
+    localStorage.setItem('lang', lang);
+    loadTranslations(lang);
+}
+
+function copyToClipboard(elementId) {
+    const text = document.getElementById(elementId).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const button = document.querySelector(`#${elementId}`).previousElementSibling.querySelector('.copy-button');
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+            button.innerHTML = '<span class="copy-icon">📋</span> Copy';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
