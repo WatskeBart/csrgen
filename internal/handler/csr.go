@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/yourusername/csrgen/internal/model"
-	"github.com/yourusername/csrgen/internal/service"
+	"github.com/WatskeBart/csrgen/internal/model"
+	"github.com/WatskeBart/csrgen/internal/service"
 )
 
 type CSRHandler struct {

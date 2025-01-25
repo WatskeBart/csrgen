@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/yourusername/csrgen/internal/model"
+	"github.com/WatskeBart/csrgen/internal/model"
 )
 
 type CSRService interface {
