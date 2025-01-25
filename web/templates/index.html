@@ -28,52 +28,56 @@
                 </label>
                 <span>Dark Mode</span>
             </div>
+            <select id="langSelect" onchange="handleLanguageChange(event)">
+                <option value="en">English</option>
+                <option value="nl">Nederlands</option>
+            </select>
         </div>
     </div>
     <form id="csrForm">
-        <div class="form-group">
+        <div class="form-group" data-i18n="commonName">
             <label>Common Name:
                 <small class="subtext">Fully qualified domain name (e.g., www.example.com)</small>
             </label>
             <input type="text" name="commonName" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="organization">
             <label>Organization:
                 <small class="subtext">Legal name of your organization</small>
             </label>
             <input type="text" name="organization" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="organizationalUnit">
             <label>Organizational Unit:
                 <small class="subtext">Department or division name (optional)</small>
             </label>
             <input type="text" name="organizationalUnit">
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="country">
             <label>Country (2 letters):
                 <small class="subtext">Two-letter country code (e.g., US, GB)</small>
             </label>
             <input type="text" name="country" maxlength="2" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="state">
             <label>State:
                 <small class="subtext">Full state or province name</small>
             </label>
             <input type="text" name="state" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="locality">
             <label>Locality:
                 <small class="subtext">City or town name</small>
             </label>
             <input type="text" name="locality" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" data-i18n="emailAddress">
             <label>Email Address:
                 <small class="subtext">Administrative contact email</small>
             </label>
             <input type="email" name="emailAddress" required>
         </div>
-        <div class="form-group advanced-field" style="display: none">
+        <div class="form-group advanced-field" style="display: none" data-i18n="keyType">
             <label>Key Type:
                 <small class="subtext">Choose encryption algorithm type</small>
             </label>
@@ -82,7 +86,7 @@
                 <option value="ECDSA">ECDSA</option>
             </select>
         </div>
-        <div class="form-group advanced-field" style="display: none">
+        <div class="form-group advanced-field" style="display: none" data-i18n="keySize">
             <label>Key Size:
                 <small class="subtext">Encryption key length</small>
             </label>
@@ -95,7 +99,7 @@
                 <option value="521">P-521 (ECDSA)</option>
             </select>
         </div>
-        <div class="form-group advanced-field" style="display: none">
+        <div class="form-group advanced-field" style="display: none" data-i18n="signatureAlgorithm">
             <label>Signature Algorithm:
                 <small class="subtext">Certificate signing algorithm</small>
             </label>
@@ -108,13 +112,13 @@
                 <option value="ECDSAWithSHA512">ECDSAWithSHA512</option>
             </select>
         </div>
-        <div class="form-group advanced-field" style="display: none">
+        <div class="form-group advanced-field" style="display: none" data-i18n="dnsNames">
             <label>DNS Names:
                 <small class="subtext">Additional domain names (one per line)</small>
             </label>
             <textarea name="dnsNames" rows="3"></textarea>
         </div>
-        <div class="form-group advanced-field" style="display: none">
+        <div class="form-group advanced-field" style="display: none" data-i18n="ipAddresses">
             <label>IP Addresses:
                 <small class="subtext">Additional IP addresses (one per line)</small>
             </label>
@@ -122,7 +126,7 @@
         </div>
         <button type="submit">Generate CSR</button>
     </form>
-    <div id="result" style="display:none;">
+    <div id="result" style="display:none;" data-i18n="results">
         <h2>Generated CSR:</h2>
         <pre id="csrText"></pre>
         <h2>Private Key:</h2>

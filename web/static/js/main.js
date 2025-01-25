@@ -72,3 +72,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLang = localStorage.getItem('lang') || 'en';
+    loadTranslations(currentLang);
+});
+
+async function loadTranslations(lang) {
+    try {
+        const response = await fetch(`/static/js/i18n/${lang}.js`);
+        const text = await response.text();
+        const translations = (new Function(text + '; return translations;'))();
+        translatePage(translations);
+    } catch (error) {
+        console.error('Error loading translations:', error);
+    }
+}
+
+function translatePage(translations) {
+    document.querySelector('h1').textContent = translations.title;
+    
+    Object.entries(translations).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+            const element = document.querySelector(`[data-i18n="${key}"]`);
+            if (element) {
+                const label = element.querySelector('label');
+                const subtext = element.querySelector('.subtext');
+                if (label) label.childNodes[0].textContent = value.label + ':';
+                if (subtext) subtext.textContent = value.subtext;
+            }
+        }
+    });
+
+    document.querySelector('[data-i18n="generate"]').textContent = translations.buttons.generate;
+    document.querySelector('[data-i18n="darkMode"]').textContent = translations.buttons.darkMode;
+    document.querySelector('[data-i18n="advanced"]').textContent = translations.buttons.advanced;
+}
+
+function handleLanguageChange(event) {
+    const lang = event.target.value;
+    localStorage.setItem('lang', lang);
+    loadTranslations(lang);
+}
