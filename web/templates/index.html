@@ -28,10 +28,12 @@
                 </label>
                 <span>Dark Mode</span>
             </div>
-            <select id="langSelect" onchange="handleLanguageChange(event)">
-                <option value="en">English</option>
-                <option value="nl">Nederlands</option>
-            </select>
+            <div>
+                <select id="langSelect" onchange="handleLanguageChange(event)">
+                    <option value="en">English</option>
+                    <option value="nl">Nederlands</option>
+                </select>
+            </div>
         </div>
     </div>
     <form id="csrForm">
@@ -126,7 +128,7 @@
         </div>
         <button type="submit">Generate CSR</button>
     </form>
-    <div id="result" style="display:none;" data-i18n="results">
+    <div id="result" style="display:none;">
         <h2>Generated CSR:</h2>
         <pre id="csrText"></pre>
         <h2>Private Key:</h2>
