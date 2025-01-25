@@ -1,85 +1,133 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>CSR Generator</title>
-        <link rel="stylesheet" href="/static/css/main.css">
-    </head>
-    <body>
-        <h1>CSR Generator</h1>
-            <form id="csrForm">
-                <div class="form-group">
-                    <label>Common Name:</label>
-                    <input type="text" name="commonName" required>
-                </div>
-                <div class="form-group">
-                    <label>Organization:</label>
-                    <input type="text" name="organization" required>
-                </div>
-                <div class="form-group">
-                    <label>Organizational Unit:</label>
-                    <input type="text" name="organizationalUnit">
-                </div>
-                <div class="form-group">
-                    <label>Country (2 letters):</label>
-                    <input type="text" name="country" maxlength="2" required>
-                </div>
-                <div class="form-group">
-                    <label>State:</label>
-                    <input type="text" name="state" required>
-                </div>
-                <div class="form-group">
-                    <label>Locality:</label>
-                    <input type="text" name="locality" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address:</label>
-                    <input type="email" name="emailAddress" required>
-                </div>
-                <div class="form-group">
-                    <label>Key Type:</label>
-                    <select name="keyType" required>
-                        <option value="RSA">RSA</option>
-                        <option value="ECDSA">ECDSA</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Key Size:</label>
-                    <select name="keySize" required>
-                        <option value="2048">2048 (RSA)</option>
-                        <option value="3072">3072 (RSA)</option>
-                        <option value="4096">4096 (RSA)</option>
-                        <option value="256">P-256 (ECDSA)</option>
-                        <option value="384">P-384 (ECDSA)</option>
-                        <option value="521">P-521 (ECDSA)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Signature Algorithm:</label>
-                    <select name="signatureAlgorithm" required>
-                        <option value="SHA256WithRSA">SHA256WithRSA</option>
-                        <option value="SHA384WithRSA">SHA384WithRSA</option>
-                        <option value="SHA512WithRSA">SHA512WithRSA</option>
-                        <option value="ECDSAWithSHA256">ECDSAWithSHA256</option>
-                        <option value="ECDSAWithSHA384">ECDSAWithSHA384</option>
-                        <option value="ECDSAWithSHA512">ECDSAWithSHA512</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>DNS Names (one per line):</label>
-                    <textarea name="dnsNames" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>IP Addresses (one per line):</label>
-                    <textarea name="ipAddresses" rows="3"></textarea>
-                </div>
-                <button type="submit">Generate CSR</button>
-            </form>
-            <div id="result" style="display:none;">
-                <h2>Generated CSR:</h2>
-                <pre id="csrText"></pre>
-                <h2>Private Key:</h2>
-                <pre id="privateKeyText"></pre>
+<head>
+    <title>CSR Generator</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div class="header-container">
+        <div class="title-container">
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="CSR Generator Logo">
             </div>
-        <script src="/static/js/main.js"></script>
-    </body>
+            <h1>CSR Generator</h1>
+            <span class="version">v{{.Version}}</span>
+        </div>
+        <div class="controls-wrapper">
+            <div class="switch-wrapper">
+                <label class="switch">
+                    <input type="checkbox" id="advanced-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Advanced</span>
+            </div>
+            <div class="switch-wrapper">
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Dark Mode</span>
+            </div>
+        </div>
+    </div>
+    <form id="csrForm">
+        <div class="form-group">
+            <label>Common Name:
+                <small class="subtext">Fully qualified domain name (e.g., www.example.com)</small>
+            </label>
+            <input type="text" name="commonName" required>
+        </div>
+        <div class="form-group">
+            <label>Organization:
+                <small class="subtext">Legal name of your organization</small>
+            </label>
+            <input type="text" name="organization" required>
+        </div>
+        <div class="form-group">
+            <label>Organizational Unit:
+                <small class="subtext">Department or division name (optional)</small>
+            </label>
+            <input type="text" name="organizationalUnit">
+        </div>
+        <div class="form-group">
+            <label>Country (2 letters):
+                <small class="subtext">Two-letter country code (e.g., US, GB)</small>
+            </label>
+            <input type="text" name="country" maxlength="2" required>
+        </div>
+        <div class="form-group">
+            <label>State:
+                <small class="subtext">Full state or province name</small>
+            </label>
+            <input type="text" name="state" required>
+        </div>
+        <div class="form-group">
+            <label>Locality:
+                <small class="subtext">City or town name</small>
+            </label>
+            <input type="text" name="locality" required>
+        </div>
+        <div class="form-group">
+            <label>Email Address:
+                <small class="subtext">Administrative contact email</small>
+            </label>
+            <input type="email" name="emailAddress" required>
+        </div>
+        <div class="form-group advanced-field" style="display: none">
+            <label>Key Type:
+                <small class="subtext">Choose encryption algorithm type</small>
+            </label>
+            <select name="keyType" required>
+                <option value="RSA">RSA</option>
+                <option value="ECDSA">ECDSA</option>
+            </select>
+        </div>
+        <div class="form-group advanced-field" style="display: none">
+            <label>Key Size:
+                <small class="subtext">Encryption key length</small>
+            </label>
+            <select name="keySize" required>
+                <option value="2048">2048 (RSA)</option>
+                <option value="3072">3072 (RSA)</option>
+                <option value="4096">4096 (RSA)</option>
+                <option value="256">P-256 (ECDSA)</option>
+                <option value="384">P-384 (ECDSA)</option>
+                <option value="521">P-521 (ECDSA)</option>
+            </select>
+        </div>
+        <div class="form-group advanced-field" style="display: none">
+            <label>Signature Algorithm:
+                <small class="subtext">Certificate signing algorithm</small>
+            </label>
+            <select name="signatureAlgorithm" required>
+                <option value="SHA256WithRSA">SHA256WithRSA</option>
+                <option value="SHA384WithRSA">SHA384WithRSA</option>
+                <option value="SHA512WithRSA">SHA512WithRSA</option>
+                <option value="ECDSAWithSHA256">ECDSAWithSHA256</option>
+                <option value="ECDSAWithSHA384">ECDSAWithSHA384</option>
+                <option value="ECDSAWithSHA512">ECDSAWithSHA512</option>
+            </select>
+        </div>
+        <div class="form-group advanced-field" style="display: none">
+            <label>DNS Names:
+                <small class="subtext">Additional domain names (one per line)</small>
+            </label>
+            <textarea name="dnsNames" rows="3"></textarea>
+        </div>
+        <div class="form-group advanced-field" style="display: none">
+            <label>IP Addresses:
+                <small class="subtext">Additional IP addresses (one per line)</small>
+            </label>
+            <textarea name="ipAddresses" rows="3"></textarea>
+        </div>
+        <button type="submit">Generate CSR</button>
+    </form>
+    <div id="result" style="display:none;">
+        <h2>Generated CSR:</h2>
+        <pre id="csrText"></pre>
+        <h2>Private Key:</h2>
+        <pre id="privateKeyText"></pre>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
 </html>

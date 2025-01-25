@@ -7,6 +7,7 @@ import (
 
 	"github.com/WatskeBart/csrgen/internal/model"
 	"github.com/WatskeBart/csrgen/internal/service"
+	"github.com/WatskeBart/csrgen/internal/version"
 )
 
 type CSRHandler struct {
@@ -23,7 +24,12 @@ func NewCSRHandler(service service.CSRService) *CSRHandler {
 }
 
 func (h *CSRHandler) HomePage(w http.ResponseWriter, r *http.Request) {
-	h.tmpl.ExecuteTemplate(w, "index.html", nil)
+	data := struct {
+		Version string
+	}{
+		Version: version.Version,
+	}
+	h.tmpl.ExecuteTemplate(w, "index.html", data)
 }
 
 func (h *CSRHandler) GenerateCSR(w http.ResponseWriter, r *http.Request) {
