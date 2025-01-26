@@ -1,7 +1,7 @@
 const translations = {
     title: "CSR Generator",
     commonName: {
-        label: "Algemene naam",
+        label: "Server naam",
         subtext: "Volledige domeinnaam (bijv. www.example.com)"
     },
     organization: {
@@ -13,16 +13,16 @@ const translations = {
         subtext: "Afdeling of divisie naam (optioneel)"
     },
     country: {
-        label: "Land (2 letters)",
+        label: "Landcode (2 letters)",
         subtext: "Twee-letterige landcode (bijv. NL, BE)"
     },
     state: {
         label: "Provincie",
-        subtext: "Volledige provincie naam"
+        subtext: "Volledige naam van de provincie"
     },
     locality: {
         label: "Plaats",
-        subtext: "Stad of gemeente naam"
+        subtext: "Stad of gemeentenaam"
     },
     emailAddress: {
         label: "E-mailadres",
