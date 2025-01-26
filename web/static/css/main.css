@@ -3,6 +3,10 @@
     --text-color: #000000;
     --input-bg: #ffffff;
     --input-border: #cccccc;
+    --button-bg: #4CAF50;
+    --button-hover: #45a049;
+    --error-color: #ff4444;
+    --success-color: #4CAF50;
 }
 
 [data-theme="dark"] {
@@ -10,23 +14,34 @@
     --text-color: #ffffff;
     --input-bg: #2d2d2d;
     --input-border: #404040;
+    --button-bg: #45a049;
+    --button-hover: #4CAF50;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body { 
-    font-family: Arial, sans-serif;
-    max-width: 1000px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+    line-height: 1.6;
 }
 
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .title-container {
@@ -36,9 +51,8 @@ body {
 }
 
 .logo {
-    width: 30px;
-    height: 30px;
-    margin-top: 5px;
+    width: 40px;
+    height: 40px;
 }
 
 .logo img {
@@ -49,28 +63,28 @@ body {
 
 h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 600;
 }
 
 .controls-wrapper {
     display: flex;
-    justify-content: space-evenly;
-    min-width: 300px;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .switch-wrapper {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-right: 10px;
+    width: 50px;
+    height: 28px;
 }
 
 .switch input {
@@ -88,49 +102,55 @@ h1 {
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
+    border-radius: 34px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     left: 4px;
     bottom: 4px;
     background-color: white;
     transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
     border-radius: 50%;
 }
 
+input:checked + .slider {
+    background-color: var(--button-bg);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 24px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .subtext {
     display: block;
     color: #666;
-    font-size: 0.8em;
-    margin-top: 2px;
+    font-size: 0.85em;
+    margin-top: 4px;
+    font-weight: normal;
 }
 
 [data-theme="dark"] .subtext {
@@ -142,35 +162,46 @@ input[type="email"],
 textarea, 
 select {
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     background-color: var(--input-bg);
     color: var(--text-color);
     border: 1px solid var(--input-border);
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, 
+textarea:focus, 
+select:focus {
+    outline: none;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    padding: 12px 24px;
+    background-color: var(--button-bg);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: var(--button-hover);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .result-section {
-    margin-bottom: 20px;
-}
-
-.result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    margin: 30px 0;
 }
 
 .version {
@@ -179,43 +210,101 @@ button:hover {
     font-size: 14px;
 }
 
-.copy-button {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--text-color);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.copy-button:hover {
-    background-color: var(--input-border);
-}
-
-.copy-icon {
-    font-size: 16px;
-}
-
 .pre-container {
     position: relative;
-    margin-top: 10px;
+    margin: 20px 0;
 }
 
-.pre-container .copy-button {
+.copy-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 1;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 pre {
     background-color: var(--input-bg);
-    padding: 15px;
-    border-radius: 4px;
+    padding: 20px;
+    border-radius: 6px;
     overflow-x: auto;
-    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    border: 1px solid var(--input-border);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .controls-wrapper {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .advanced-field {
+        margin-top: 30px;
+    }
+
+    select[name="keyType"],
+    select[name="keySize"],
+    select[name="signatureAlgorithm"] {
+        width: 100%;
+    }
+
+    textarea {
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .controls-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .copy-button {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    pre {
+        padding: 16px;
+        font-size: 13px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    select, button {
+        padding: 14px;
+    }
+
+    .copy-button {
+        padding: 12px;
+    }
 }
