@@ -1,14 +1,71 @@
-# Certificate Signing Request generator written in Go
+# CSR Generator
 
-## Requirements:
+A web-based Certificate Signing Request (CSR) generator written in Go, featuring an intuitive interface for creating CSRs with advanced cryptographic options.
 
-[Golang v1.23+](https://go.dev/doc/install)
+## Features
 
-## Usage:
-`go run cmd/server/main.go` and navigate to [http://localhost:8080/](http://localhost:8080/)
+- Generate CSRs with RSA or ECDSA keys
+- Support for multiple key sizes (RSA: 2048-4096, ECDSA: P-256/384/521)
+- Various signature algorithms (SHA256/384/512 with RSA/ECDSA)
+- Multi-language support (English, Dutch)
+- Dark/Light theme
+- Basic and Advanced modes
+- Support for SAN (Subject Alternative Names)
+  - Multiple DNS names
+  - Multiple IP addresses
+- Copy-to-clipboard functionality
+- Mobile-responsive design
 
-## Screenshot advanced mode:
-![csrgen advanced mode](csrgen_advancedmode.gif)
+## Requirements
 
-## Screenshot light/dark mode:
-![csrgen light/dark mode](csrgen_light-dark.gif)
+- Go 1.23 or higher
+
+## Installation
+
+```bash
+git clone https://github.com/WatskeBart/csrgen.git
+cd csrgen
+go mod download
+```
+
+## Quick Start
+
+1. Start the server:
+```bash
+go run cmd/server/main.go
+```
+
+2. Open your browser and navigate to [http://localhost:8080](http://localhost:8080)
+
+## Usage
+
+1. Fill in the required certificate information:
+   - Common Name (domain name)
+   - Organization details
+   - Location information
+   - Contact email
+
+2. Optional: Toggle Advanced mode for additional settings:
+   - Key type selection (RSA/ECDSA)
+   - Key size configuration
+   - Signature algorithm choice
+   - Additional DNS names
+   - IP addresses
+
+3. Click "Generate CSR" to create your Certificate Signing Request
+
+4. Copy the generated CSR and private key
+
+## Security Notes
+
+- Private keys are generated locally in your browser
+- No data is stored on the server
+- Always keep your private key secure and confidential
+
+## License
+
+[BSD 3-Clause License](LICENSE)
+
+## Screenshots
+
+See [screenshots directory](screenshots/) for interface previews showing advanced mode and theme switching.
