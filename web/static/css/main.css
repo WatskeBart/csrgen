@@ -239,7 +239,6 @@ pre {
     border: 1px solid var(--input-border);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
@@ -298,7 +297,6 @@ pre {
     }
 }
 
-/* Touch device optimizations */
 @media (hover: none) {
     select, button {
         padding: 14px;
