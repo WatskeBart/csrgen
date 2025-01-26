@@ -2,6 +2,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const advancedToggle = document.getElementById('advanced-toggle');
     const advancedFields = document.querySelectorAll('.advanced-field');
+    const langSelect = document.getElementById('langSelect');
+    
+    const currentLang = localStorage.getItem('lang') || 'en';
+    langSelect.value = currentLang;
+    loadTranslations(currentLang);
+
+    langSelect.addEventListener('change', function(event) {
+        const lang = event.target.value;
+        localStorage.setItem('lang', lang);
+        loadTranslations(lang);
+    });
     
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'dark') {
