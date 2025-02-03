@@ -31,11 +31,30 @@ go mod download
 ## Quick Start
 
 1. Start the server:
+
 ```bash
 go run cmd/server/main.go
 ```
 
-2. Open your browser and navigate to [http://localhost:8080](http://localhost:8080)
+1. Open your browser and navigate to [http://localhost:8080](http://localhost:8080)
+
+## Build binary
+
+>❗A Go binary by default is only built for the OS and architecture of the machine doing the compilation
+
+```bash
+go build -o csrgen cmd/server/main.go
+```
+
+The `/web` folder is still needed with the built binary.
+
+## Build container image
+
+>Pick a image builder you like. `docker build` or `podman build` work as well.
+
+```bash
+buildah build -f Containerfile -t csrgen:mybuild .
+```
 
 ## Usage
 
