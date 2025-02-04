@@ -14,7 +14,7 @@ jobs:
 
     - name: Build and Push
       run: |
-        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/csrgen
         VERSION=${{ github.event.release.tag_name }}
         
         docker build -f Containerfile -t $IMAGE_NAME:$VERSION .
