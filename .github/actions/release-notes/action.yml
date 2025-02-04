@@ -1,0 +1,14 @@
+name: 'Generate Release Notes'
+description: 'Generates release notes from commit messages'
+inputs:
+  tag:
+    description: 'Release tag'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        gh release edit ${{ inputs.tag }} --notes "$(git log --pretty=format:'- %s' $(git describe --tags --abbrev=0 HEAD^)..HEAD)"
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
