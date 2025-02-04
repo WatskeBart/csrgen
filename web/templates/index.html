@@ -84,8 +84,8 @@
                 <small class="subtext">Choose encryption algorithm type</small>
             </label>
             <select name="keyType" required>
-                <option value="RSA">RSA</option>
                 <option value="ECDSA">ECDSA</option>
+                <option value="RSA">RSA</option>
             </select>
         </div>
         <div class="form-group advanced-field" style="display: none" data-i18n="keySize">
@@ -93,12 +93,13 @@
                 <small class="subtext">Encryption key length</small>
             </label>
             <select name="keySize" required>
-                <option value="2048">2048 (RSA)</option>
-                <option value="3072">3072 (RSA)</option>
-                <option value="4096">4096 (RSA)</option>
                 <option value="256">P-256 (ECDSA)</option>
                 <option value="384">P-384 (ECDSA)</option>
                 <option value="521">P-521 (ECDSA)</option>
+                <option value="2048">2048 (RSA)</option>
+                <option value="3072">3072 (RSA)</option>
+                <option value="4096">4096 (RSA)</option>
+                
             </select>
         </div>
         <div class="form-group advanced-field" style="display: none" data-i18n="signatureAlgorithm">
@@ -106,12 +107,13 @@
                 <small class="subtext">Certificate signing algorithm</small>
             </label>
             <select name="signatureAlgorithm" required>
-                <option value="SHA256WithRSA">SHA256WithRSA</option>
-                <option value="SHA384WithRSA">SHA384WithRSA</option>
-                <option value="SHA512WithRSA">SHA512WithRSA</option>
                 <option value="ECDSAWithSHA256">ECDSAWithSHA256</option>
                 <option value="ECDSAWithSHA384">ECDSAWithSHA384</option>
                 <option value="ECDSAWithSHA512">ECDSAWithSHA512</option>
+                <option value="SHA256WithRSA">SHA256WithRSA</option>
+                <option value="SHA384WithRSA">SHA384WithRSA</option>
+                <option value="SHA512WithRSA">SHA512WithRSA</option>
+                
             </select>
         </div>
         <div class="form-group advanced-field" style="display: none" data-i18n="dnsNames">
