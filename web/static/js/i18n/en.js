@@ -52,7 +52,8 @@ const translations = {
         generate: "Generate CSR",
         darkMode: "Dark Mode",
         advanced: "Advanced",
-        copy: "Copy"
+        copy: "Copy",
+        download: "Download"
     },
     results: {
         generatedCSR: "Generated CSR:",

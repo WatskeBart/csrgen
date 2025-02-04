@@ -149,3 +149,14 @@ function copyToClipboard(elementId) {
         console.error('Failed to copy:', err);
     });
 }
+
+function downloadFile(elementId, filename) {
+    const text = document.getElementById(elementId).textContent;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}

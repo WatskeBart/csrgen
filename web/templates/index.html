@@ -136,13 +136,22 @@
                 <span class="copy-icon">📋</span>
                 <span data-i18n="copy">Copy</span>
             </button>
+            <button class="download-button" onclick="downloadFile('csrText', 'certificate.req')">
+                <span class="download-icon">⬇️</span>
+                <span data-i18n="download">Download</span>
+            </button>
         </div>    
         <h2 data-i18n="privateKey">Private Key:</h2>
         <div class="pre-container">
             <pre id="privateKeyText"></pre>
-            <button class="copy-button" onclick="copyToClipboard('csrText')">
+            <button class="copy-button" onclick="copyToClipboard('privateKeyText')">
                 <span class="copy-icon">📋</span>
                 <span data-i18n="copy">Copy</span>
+            </button>
+            <button class="download-button" onclick="downloadFile('privateKeyText', 'private.key')">
+                <span class="download-icon">⬇️</span>
+                <span data-i18n="download">Download</span>
+            </button>
         </div>
     </div>
     <script src="/static/js/main.js"></script>
