@@ -1,0 +1,7 @@
+name: 'Checkout'
+description: Checkout repo
+runs:
+  using: 'composite'
+  steps:
+    - run: git clone https://github.com/${{ github.repository }}.git .
+      shell: bash
