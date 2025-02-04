@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const advancedToggle = document.getElementById('advanced-toggle');
     const advancedFields = document.querySelectorAll('.advanced-field');
     const langSelect = document.getElementById('langSelect');
-    
+    const keyTypeSelect = document.querySelector('select[name="keyType"]');
+    const keySizeSelect = document.querySelector('select[name="keySize"]');
+    const signatureAlgorithmSelect = document.querySelector('select[name="signatureAlgorithm"]');
+
     const currentLang = localStorage.getItem('lang') || 'en';
     langSelect.value = currentLang;
     loadTranslations(currentLang);
@@ -12,6 +15,61 @@ document.addEventListener('DOMContentLoaded', function() {
         const lang = event.target.value;
         localStorage.setItem('lang', lang);
         loadTranslations(lang);
+    });
+
+    keyTypeSelect.addEventListener('change', function() {
+        const selectedKeyType = this.value;
+
+    keySizeSelect.innerHTML = '';
+    signatureAlgorithmSelect.innerHTML = '';
+
+    if (selectedKeyType === 'RSA') {
+            const rsaKeySizes = [
+                { value: '2048', text: '2048 (RSA)' },
+                { value: '3072', text: '3072 (RSA)' },
+                { value: '4096', text: '4096 (RSA)' }
+            ];
+            
+            rsaKeySizes.forEach(size => {
+                const option = new Option(size.text, size.value);
+                keySizeSelect.add(option);
+            });
+            
+            const rsaSignatureAlgorithms = [
+                { value: 'SHA256WithRSA', text: 'SHA256WithRSA' },
+                { value: 'SHA384WithRSA', text: 'SHA384WithRSA' },
+                { value: 'SHA512WithRSA', text: 'SHA512WithRSA' }
+            ];
+            
+            rsaSignatureAlgorithms.forEach(algo => {
+                const option = new Option(algo.text, algo.value);
+                signatureAlgorithmSelect.add(option);
+            });
+        } else if (selectedKeyType === 'ECDSA') {
+            const ecdsaKeySizes = [
+                { value: '256', text: 'P-256 (ECDSA)' },
+                { value: '384', text: 'P-384 (ECDSA)' },
+                { value: '521', text: 'P-521 (ECDSA)' }
+            ];
+            
+            ecdsaKeySizes.forEach(size => {
+                const option = new Option(size.text, size.value);
+                keySizeSelect.add(option);
+            });
+            
+            const ecdsaSignatureAlgorithms = [
+                { value: 'ECDSAWithSHA256', text: 'ECDSAWithSHA256' },
+                { value: 'ECDSAWithSHA384', text: 'ECDSAWithSHA384' },
+                { value: 'ECDSAWithSHA512', text: 'ECDSAWithSHA512' }
+            ];
+            
+            ecdsaSignatureAlgorithms.forEach(algo => {
+                const option = new Option(algo.text, algo.value);
+                signatureAlgorithmSelect.add(option);
+            });
+        }
+
+    keyTypeSelect.dispatchEvent(new Event('change'));
     });
     
     const currentTheme = localStorage.getItem('theme');
