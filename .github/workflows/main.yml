@@ -1,6 +1,7 @@
 name: Build csrgen
 
 on:
+ workflow_dispatch:
  release:
    types: [created]
 
