@@ -33,6 +33,7 @@ function setCustomDefaults() {
     document.querySelector('input[name="keyEncipherment"]').checked = true;
     document.querySelector('input[name="serverAuth"]').checked = true;
     document.querySelector('input[name="clientAuth"]').checked = true;
+    // Todo add remaining key usage checkboxes
 }
 
     keyTypeSelect.addEventListener('change', function() {
