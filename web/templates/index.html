@@ -32,6 +32,7 @@
                 <select id="langSelect">
                     <option value="en">English</option>
                     <option value="nl">Nederlands</option>
+                    <option value="custom">Custom</option>
                 </select>
             </div>
         </div>
@@ -79,6 +80,12 @@
             </label>
             <input type="email" name="emailAddress" required>
         </div>
+        <div class="form-group" data-i18n="dnsNames">
+            <label>DNS Names:
+                <small class="subtext">Additional domain names (one per line)</small>
+            </label>
+            <textarea name="dnsNames" rows="3"></textarea>
+        </div>
         <div class="form-group advanced-field" style="display: none" data-i18n="keyType">
             <label>Key Type:
                 <small class="subtext">Choose encryption algorithm type</small>
@@ -93,12 +100,12 @@
                 <small class="subtext">Encryption key length</small>
             </label>
             <select name="keySize" required>
-                <option value="256">P-256 (ECDSA)</option>
-                <option value="384">P-384 (ECDSA)</option>
-                <option value="521">P-521 (ECDSA)</option>
-                <option value="2048">2048 (RSA)</option>
-                <option value="3072">3072 (RSA)</option>
-                <option value="4096">4096 (RSA)</option>
+                <option value="256">P-256</option>
+                <option value="384">P-384</option>
+                <option value="521">P-521</option>
+                <option value="2048">2048</option>
+                <option value="3072">3072</option>
+                <option value="4096">4096</option>
                 
             </select>
         </div>
@@ -107,20 +114,14 @@
                 <small class="subtext">Certificate signing algorithm</small>
             </label>
             <select name="signatureAlgorithm" required>
-                <option value="ECDSAWithSHA256">ECDSAWithSHA256</option>
-                <option value="ECDSAWithSHA384">ECDSAWithSHA384</option>
-                <option value="ECDSAWithSHA512">ECDSAWithSHA512</option>
-                <option value="SHA256WithRSA">SHA256WithRSA</option>
-                <option value="SHA384WithRSA">SHA384WithRSA</option>
-                <option value="SHA512WithRSA">SHA512WithRSA</option>
+                <option value="ECDSAWithSHA256">SHA256</option>
+                <option value="ECDSAWithSHA384">SHA384</option>
+                <option value="ECDSAWithSHA512">SHA512</option>
+                <option value="SHA256WithRSA">SHA256</option>
+                <option value="SHA384WithRSA">SHA384</option>
+                <option value="SHA512WithRSA">SHA512</option>
                 
             </select>
-        </div>
-        <div class="form-group advanced-field" style="display: none" data-i18n="dnsNames">
-            <label>DNS Names:
-                <small class="subtext">Additional domain names (one per line)</small>
-            </label>
-            <textarea name="dnsNames" rows="3"></textarea>
         </div>
         <div class="form-group advanced-field" style="display: none" data-i18n="ipAddresses">
             <label>IP Addresses:

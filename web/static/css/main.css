@@ -9,6 +9,10 @@
     --success-color: #4CAF50;
 }
 
+#langSelect option[value="custom"] {
+    display: none;
+}
+
 [data-theme="dark"] {
     --bg-color: #1a1a1a;
     --text-color: #ffffff;
@@ -136,7 +140,7 @@ select {
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 5px;
 }
 
 label {

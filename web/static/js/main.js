@@ -14,8 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
     langSelect.addEventListener('change', function(event) {
         const lang = event.target.value;
         localStorage.setItem('lang', lang);
-        loadTranslations(lang);
+        if (lang === 'custom') {
+            setCustomDefaults();
+        } else {
+            loadTranslations(lang);
+        }
     });
+
+function setCustomDefaults() {
+    document.querySelector('input[name="commonName"]').value = "custom.example.com";
+    document.querySelector('input[name="organization"]').value = "Custom Organization";
+    document.querySelector('input[name="organizationalUnit"]').value = "Custom Department";
+    document.querySelector('input[name="country"]').value = "GB";
+    document.querySelector('input[name="state"]').value = "London";
+    document.querySelector('input[name="locality"]').value = "London";
+    document.querySelector('input[name="emailAddress"]').value = "admin@custom.example.com";
+}
 
     keyTypeSelect.addEventListener('change', function() {
         const selectedKeyType = this.value;
@@ -25,9 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (selectedKeyType === 'RSA') {
             const rsaKeySizes = [
-                { value: '2048', text: '2048 (RSA)' },
-                { value: '3072', text: '3072 (RSA)' },
-                { value: '4096', text: '4096 (RSA)' }
+                { value: '2048', text: '2048-bit' },
+                { value: '3072', text: '3072-bit' },
+                { value: '4096', text: '4096-bit' }
             ];
             
             rsaKeySizes.forEach(size => {
@@ -36,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             const rsaSignatureAlgorithms = [
-                { value: 'SHA256WithRSA', text: 'SHA256WithRSA' },
-                { value: 'SHA384WithRSA', text: 'SHA384WithRSA' },
-                { value: 'SHA512WithRSA', text: 'SHA512WithRSA' }
+                { value: 'SHA256WithRSA', text: 'SHA256' },
+                { value: 'SHA384WithRSA', text: 'SHA384' },
+                { value: 'SHA512WithRSA', text: 'SHA512' }
             ];
             
             rsaSignatureAlgorithms.forEach(algo => {
@@ -47,9 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } else if (selectedKeyType === 'ECDSA') {
             const ecdsaKeySizes = [
-                { value: '256', text: 'P-256 (ECDSA)' },
-                { value: '384', text: 'P-384 (ECDSA)' },
-                { value: '521', text: 'P-521 (ECDSA)' }
+                { value: '256', text: 'P-256' },
+                { value: '384', text: 'P-384' },
+                { value: '521', text: 'P-521' }
             ];
             
             ecdsaKeySizes.forEach(size => {
@@ -58,9 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             const ecdsaSignatureAlgorithms = [
-                { value: 'ECDSAWithSHA256', text: 'ECDSAWithSHA256' },
-                { value: 'ECDSAWithSHA384', text: 'ECDSAWithSHA384' },
-                { value: 'ECDSAWithSHA512', text: 'ECDSAWithSHA512' }
+                { value: 'ECDSAWithSHA256', text: 'SHA256' },
+                { value: 'ECDSAWithSHA384', text: 'SHA384' },
+                { value: 'ECDSAWithSHA512', text: 'SHA512' }
             ];
             
             ecdsaSignatureAlgorithms.forEach(algo => {
