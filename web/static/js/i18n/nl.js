@@ -67,6 +67,7 @@ const translations = {
         label: "Uitgebreid Sleutelgebruik",
         subtext: "Specifieke doel beperkingen"
     },
+    keyUsageTitle: "Sleutelgebruik",
     keyUsageOptions: {
         digitalSignature: "Digitale Handtekening",
         nonRepudiation: "Niet-Weerlegbaarheid",
@@ -78,6 +79,7 @@ const translations = {
         encipherOnly: "Alleen Versleutelen",
         decipherOnly: "Alleen Ontsleutelen"
     },
+    extKeyUsageTitle: "Uitgebreid Sleutelgebruik",
     extendedKeyUsageOptions: {
         serverAuth: "Server Authenticatie",
         clientAuth: "Client Authenticatie",
@@ -86,6 +88,4 @@ const translations = {
         timeStamping: "Tijdstempeling",
         OCSPSigning: "OCSP Ondertekening"
     },
-    keyUsageTitle: "Sleutelgebruik",
-    extKeyUsageTitle: "Uitgebreid Sleutelgebruik",
 };

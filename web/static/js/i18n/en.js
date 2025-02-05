@@ -67,6 +67,7 @@ const translations = {
         label: "Extended Key Usage",
         subtext: "Specific purpose constraints"
     },
+    keyUsageTitle: "Key Usage",
     keyUsageOptions: {
         digitalSignature: "Digital Signature",
         nonRepudiation: "Non-Repudiation",
@@ -78,6 +79,7 @@ const translations = {
         encipherOnly: "Encipher Only",
         decipherOnly: "Decipher Only"
     },
+    extKeyUsageTitle: "Extended Key Usage",
     extendedKeyUsageOptions: {
         serverAuth: "Server Authentication",
         clientAuth: "Client Authentication",
@@ -86,6 +88,4 @@ const translations = {
         timeStamping: "Time Stamping",
         OCSPSigning: "OCSP Signing"
     },
-    keyUsageTitle: "Key Usage",
-    extKeyUsageTitle: "Extended Key Usage",
 };
