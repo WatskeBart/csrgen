@@ -18,7 +18,7 @@ A web-based Certificate Signing Request (CSR) generator written in Go, featuring
 
 ## Requirements
 
-- Go 1.23 or higher
+- Go 1.22 or higher
 
 ## Installation
 
