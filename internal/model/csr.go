@@ -13,6 +13,8 @@ type CSRRequest struct {
 	SignatureAlgorithm string   `json:"signatureAlgorithm"`
 	DNSNames           []string `json:"dnsNames"`
 	IPAddresses        []string `json:"ipAddresses"`
+	KeyUsage           []string `json:"keyUsage"`
+	ExtendedKeyUsage   []string `json:"extendedKeyUsage"`
 }
 
 type CSRResponse struct {

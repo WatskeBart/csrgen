@@ -7,6 +7,7 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/asn1"
 	"encoding/pem"
 	"fmt"
 	"net"
@@ -22,6 +23,49 @@ type csrService struct{}
 
 func NewCSRService() CSRService {
 	return &csrService{}
+}
+func buildKeyUsageExtensions(keyUsage x509.KeyUsage, extKeyUsage []x509.ExtKeyUsage) []pkix.Extension {
+	var exts []pkix.Extension
+	if keyUsage != 0 {
+		ext := pkix.Extension{
+			Id:       []int{2, 5, 29, 15},
+			Critical: true,
+			Value:    []byte{3, 2, 0, byte(keyUsage)},
+		}
+		exts = append(exts, ext)
+	}
+
+	if len(extKeyUsage) > 0 {
+		var extKeyUsageOIDs []asn1.ObjectIdentifier
+		for _, usage := range extKeyUsage {
+			switch usage {
+			case x509.ExtKeyUsageServerAuth:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 1})
+			case x509.ExtKeyUsageClientAuth:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 2})
+			case x509.ExtKeyUsageCodeSigning:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 3})
+			case x509.ExtKeyUsageEmailProtection:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 4})
+			case x509.ExtKeyUsageTimeStamping:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 8})
+			case x509.ExtKeyUsageOCSPSigning:
+				extKeyUsageOIDs = append(extKeyUsageOIDs, []int{1, 3, 6, 1, 5, 5, 7, 3, 9})
+			}
+		}
+
+		if len(extKeyUsageOIDs) > 0 {
+			extKeyUsageBytes, _ := asn1.Marshal(extKeyUsageOIDs)
+			ext := pkix.Extension{
+				Id:       []int{2, 5, 29, 37},
+				Critical: false,
+				Value:    extKeyUsageBytes,
+			}
+			exts = append(exts, ext)
+		}
+	}
+
+	return exts
 }
 
 func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error) {
@@ -79,6 +123,48 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		return model.CSRResponse{}, fmt.Errorf("invalid signature algorithm: %s", req.SignatureAlgorithm)
 	}
 
+	var keyUsage x509.KeyUsage
+	for _, usage := range req.KeyUsage {
+		switch usage {
+		case "digitalSignature":
+			keyUsage |= x509.KeyUsageDigitalSignature
+		case "nonRepudiation":
+			keyUsage |= x509.KeyUsageContentCommitment
+		case "keyEncipherment":
+			keyUsage |= x509.KeyUsageKeyEncipherment
+		case "dataEncipherment":
+			keyUsage |= x509.KeyUsageDataEncipherment
+		case "keyAgreement":
+			keyUsage |= x509.KeyUsageKeyAgreement
+		case "certSign":
+			keyUsage |= x509.KeyUsageCertSign
+		case "crlSign":
+			keyUsage |= x509.KeyUsageCRLSign
+		case "encipherOnly":
+			keyUsage |= x509.KeyUsageEncipherOnly
+		case "decipherOnly":
+			keyUsage |= x509.KeyUsageDecipherOnly
+		}
+	}
+
+	var extKeyUsage []x509.ExtKeyUsage
+	for _, usage := range req.ExtendedKeyUsage {
+		switch usage {
+		case "serverAuth":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageServerAuth)
+		case "clientAuth":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageClientAuth)
+		case "codeSigning":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageCodeSigning)
+		case "emailProtection":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageEmailProtection)
+		case "timeStamping":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageTimeStamping)
+		case "OCSPSigning":
+			extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageOCSPSigning)
+		}
+	}
+
 	template := &x509.CertificateRequest{
 		Subject: pkix.Name{
 			CommonName:         req.CommonName,
@@ -92,6 +178,7 @@ func (s *csrService) GenerateCSR(req model.CSRRequest) (model.CSRResponse, error
 		DNSNames:           req.DNSNames,
 		IPAddresses:        ipAddresses,
 		EmailAddresses:     []string{req.EmailAddress},
+		ExtraExtensions:    buildKeyUsageExtensions(keyUsage, extKeyUsage),
 	}
 
 	csrBytes, err := x509.CreateCertificateRequest(rand.Reader, template, privateKey)

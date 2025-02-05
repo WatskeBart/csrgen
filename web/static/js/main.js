@@ -29,6 +29,10 @@ function setCustomDefaults() {
     document.querySelector('input[name="state"]').value = "London";
     document.querySelector('input[name="locality"]').value = "London";
     document.querySelector('input[name="emailAddress"]').value = "admin@custom.example.com";
+    document.querySelector('input[name="digitalSignature"]').checked = true;
+    document.querySelector('input[name="keyEncipherment"]').checked = true;
+    document.querySelector('input[name="serverAuth"]').checked = true;
+    document.querySelector('input[name="clientAuth"]').checked = true;
 }
 
     keyTypeSelect.addEventListener('change', function() {
@@ -129,7 +133,9 @@ function setCustomDefaults() {
             keySize: parseInt(formData.get('keySize')),
             signatureAlgorithm: formData.get('signatureAlgorithm'),
             dnsNames: formData.get('dnsNames').split('\n').filter(x => x.trim()),
-            ipAddresses: formData.get('ipAddresses').split('\n').filter(x => x.trim())
+            ipAddresses: formData.get('ipAddresses').split('\n').filter(x => x.trim()),
+            keyUsage: Array.from(formData.getAll('keyUsage')),
+            extendedKeyUsage: Array.from(formData.getAll('extendedKeyUsage')),
         };
         
         try {
@@ -193,6 +199,34 @@ function translatePage(translations) {
         headings[0].textContent = translations.results.generatedCSR;
         headings[1].textContent = translations.results.privateKey;
     }
+
+    const keyUsageLabels = document.querySelector('[data-i18n="keyUsageOptions"]').querySelectorAll('label');
+    const extKeyUsageLabels = document.querySelector('[data-i18n="extendedKeyUsageOptions"]').querySelectorAll('label');
+    
+    document.querySelectorAll('h3[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[key]) {
+            element.textContent = translations[key];
+        }
+    });
+    
+    keyUsageLabels.forEach(label => {
+        const key = label.querySelector('input').name;
+        const input = label.querySelector('input').cloneNode(true);
+        if (translations.keyUsageOptions[key]) {
+            label.textContent = translations.keyUsageOptions[key];
+            label.insertBefore(input, label.firstChild);
+        }
+    });
+    
+    extKeyUsageLabels.forEach(label => {
+        const key = label.querySelector('input').name;
+        const input = label.querySelector('input').cloneNode(true);
+        if (translations.extendedKeyUsageOptions[key]) {
+            label.textContent = translations.extendedKeyUsageOptions[key];
+            label.insertBefore(input, label.firstChild);
+        }
+    });
 
     document.querySelector('[data-i18n="generate"]').textContent = translations.buttons.generate;
     document.querySelector('[data-i18n="darkMode"]').textContent = translations.buttons.darkMode;
