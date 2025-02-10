@@ -58,5 +58,34 @@ const translations = {
     results: {
         generatedCSR: "Gegenereerde CSR:",
         privateKey: "Privé Sleutel:"
-    }
+    },
+    keyUsage: {
+        label: "Sleutelgebruik",
+        subtext: "Basis sleutelgebruik beperkingen"
+    },
+    extendedKeyUsage: {
+        label: "Uitgebreid Sleutelgebruik",
+        subtext: "Specifieke doel beperkingen"
+    },
+    keyUsageTitle: "Sleutelgebruik",
+    keyUsageOptions: {
+        digitalSignature: "Digitale Handtekening",
+        nonRepudiation: "Niet-Weerlegbaarheid",
+        keyEncipherment: "Sleutelvercijfering",
+        dataEncipherment: "Gegevensvercijfering",
+        keyAgreement: "Sleutelovereenkomst",
+        certSign: "Certificaat Ondertekening",
+        crlSign: "CRL Ondertekening",
+        encipherOnly: "Alleen Versleutelen",
+        decipherOnly: "Alleen Ontsleutelen"
+    },
+    extKeyUsageTitle: "Uitgebreid Sleutelgebruik",
+    extendedKeyUsageOptions: {
+        serverAuth: "Server Authenticatie",
+        clientAuth: "Client Authenticatie",
+        codeSigning: "Code Ondertekening",
+        emailProtection: "E-mail Beveiliging",
+        timeStamping: "Tijdstempeling",
+        OCSPSigning: "OCSP Ondertekening"
+    },
 };
