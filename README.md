@@ -7,6 +7,7 @@ A web-based Certificate Signing Request (CSR) generator written in Go, featuring
 - Generate CSRs with RSA or ECDSA keys
 - Support for multiple key sizes (RSA: 2048-4096, ECDSA: P-256/384/521)
 - Various signature algorithms (SHA256/384/512 with RSA/ECDSA)
+- Various key usage options
 - Multi-language support (English, Dutch)
 - Dark/Light theme
 - Basic and Advanced modes
@@ -33,7 +34,7 @@ go mod download
 1. Start the server:
 
 ```bash
-go run cmd/server/main.go
+go run csrgen.go
 ```
 
 1. Open your browser and navigate to [http://localhost:8080](http://localhost:8080)
@@ -43,7 +44,7 @@ go run cmd/server/main.go
 >❗A Go binary by default is only built for the OS and architecture of the machine doing the compilation
 
 ```bash
-go build -o csrgen cmd/server/main.go
+go build -o csrgen csrgen.go
 ```
 
 The `/web` folder is still needed with the built binary.
@@ -70,6 +71,7 @@ buildah build -f Containerfile -t csrgen:mybuild .
    - Signature algorithm choice
    - Additional DNS names
    - IP addresses
+   - Key usage or extended key usage
 
 3. Click "Generate CSR" to create your Certificate Signing Request
 
