@@ -13,6 +13,11 @@
             <h1>CSR Generator</h1>
             <span class="version">v{{.Version}}</span>
         </div>
+        <div class="flag-container">
+            <img src="/static/images/gb.svg" alt="English" class="flag-icon active" data-lang="en">
+            <img src="/static/images/nl.svg" alt="Nederlands" class="flag-icon" data-lang="nl">
+        </div>
+    </div>
         <div class="controls-wrapper">
             <div class="switch-wrapper">
                 <label class="switch">
@@ -28,15 +33,15 @@
                 </label>
                 <span data-i18n="darkMode">Dark Mode</span>
             </div>
-            <div>
-                <select id="langSelect">
-                    <option value="en">English</option>
-                    <option value="nl">Nederlands</option>
-                    <option value="custom">Custom</option>
+            <div class="presetSelect">
+                <select id="presetSelect">
+                    <option value="">Select Preset</option>
+                    <option value="webserver">Web Server</option>
+                    <option value="codesigning">Code Signing</option>
+                    <option value="email">Email Protection</option>
                 </select>
             </div>
         </div>
-    </div>
     <form id="csrForm">
         <div class="form-group" data-i18n="commonName">
             <label>Common Name:
@@ -133,26 +138,26 @@
             <div class="form-group key-usage">
                 <h3 data-i18n="keyUsageTitle">Key Usage</h3>
                 <div class="checkbox-group" data-i18n="keyUsageOptions">
-                    <label><input type="checkbox" name="digitalSignature"> Digital Signature</label>
-                    <label><input type="checkbox" name="nonRepudiation"> Non-Repudiation</label>
-                    <label><input type="checkbox" name="keyEncipherment"> Key Encipherment</label>
-                    <label><input type="checkbox" name="dataEncipherment"> Data Encipherment</label>
-                    <label><input type="checkbox" name="keyAgreement"> Key Agreement</label>
-                    <label><input type="checkbox" name="certSign"> Certificate Sign</label>
-                    <label><input type="checkbox" name="crlSign"> CRL Sign</label>
-                    <label><input type="checkbox" name="encipherOnly"> Encipher Only</label>
-                    <label><input type="checkbox" name="decipherOnly"> Decipher Only</label>
+                    <label><input type="checkbox" name="keyUsage" value="digitalSignature"> Digital Signature</label>
+                    <label><input type="checkbox" name="keyUsage" value="nonRepudiation"> Non-Repudiation</label>
+                    <label><input type="checkbox" name="keyUsage" value="keyEncipherment"> Key Encipherment</label>
+                    <label><input type="checkbox" name="keyUsage" value="dataEncipherment"> Data Encipherment</label>
+                    <label><input type="checkbox" name="keyUsage" value="keyAgreement"> Key Agreement</label>
+                    <label><input type="checkbox" name="keyUsage" value="certSign"> Certificate Sign</label>
+                    <label><input type="checkbox" name="keyUsage" value="crlSign"> CRL Sign</label>
+                    <label><input type="checkbox" name="keyUsage" value="encipherOnly"> Encipher Only</label>
+                    <label><input type="checkbox" name="keyUsage" value="decipherOnly"> Decipher Only</label>
                 </div>
             </div>
             <div class="form-group ext-key-usage">
                 <h3 data-i18n="extKeyUsageTitle">Extended Key Usage</h3>
                 <div class="checkbox-group" data-i18n="extendedKeyUsageOptions">
-                    <label><input type="checkbox" name="serverAuth"> Server Authentication</label>
-                    <label><input type="checkbox" name="clientAuth"> Client Authentication</label>
-                    <label><input type="checkbox" name="codeSigning"> Code Signing</label>
-                    <label><input type="checkbox" name="emailProtection"> Email Protection</label>
-                    <label><input type="checkbox" name="timeStamping"> Time Stamping</label>
-                    <label><input type="checkbox" name="OCSPSigning"> OCSP Signing</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="serverAuth"> Server Authentication</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="clientAuth"> Client Authentication</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="codeSigning"> Code Signing</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="emailProtection"> Email Protection</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="timeStamping"> Time Stamping</label>
+                    <label><input type="checkbox" name="extendedKeyUsage" value="OCSPSigning"> OCSP Signing</label>
                 </div>
             </div>
         </div>
@@ -185,5 +190,6 @@
         </div>
     </div>
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/presets.js"></script>
 </body>
 </html>
