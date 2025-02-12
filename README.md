@@ -15,6 +15,7 @@ A web-based Certificate Signing Request (CSR) generator written in Go, featuring
   - Multiple DNS names
   - Multiple IP addresses
 - Copy-to-clipboard functionality
+- Download-to-file functionality
 - Mobile-responsive design
 
 ## Requirements
@@ -46,8 +47,6 @@ go run csrgen.go
 ```bash
 go build -o csrgen csrgen.go
 ```
-
-The `/web` folder is still needed with the built binary.
 
 ## Build container image
 
