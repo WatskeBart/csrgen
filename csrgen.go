@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"embed"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -16,11 +18,14 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
+//go:embed web
+var webFS embed.FS
+
 func main() {
 	cfg := config.Load()
 
 	csrService := service.NewCSRService()
-	csrHandler := handler.NewCSRHandler(csrService)
+	csrHandler := handler.NewCSRHandler(csrService, webFS)
 	r := setupRouter(csrHandler)
 
 	srv := &http.Server{
@@ -68,8 +73,8 @@ func setupRouter(csrHandler *handler.CSRHandler) *chi.Mux {
 	r.Get("/", csrHandler.HomePage)
 	r.Post("/api/csr", csrHandler.GenerateCSR)
 
-	fileServer := http.FileServer(http.Dir("web/static"))
-	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
+	staticFS, _ := fs.Sub(webFS, "web/static")
+	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
 
 	return r
 }
