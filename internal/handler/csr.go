@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"embed"
 	"encoding/json"
 	"html/template"
 	"net/http"
@@ -15,8 +16,8 @@ type CSRHandler struct {
 	tmpl    *template.Template
 }
 
-func NewCSRHandler(service service.CSRService) *CSRHandler {
-	tmpl := template.Must(template.ParseGlob("web/templates/*.html"))
+func NewCSRHandler(service service.CSRService, webFS embed.FS) *CSRHandler {
+	tmpl := template.Must(template.ParseFS(webFS, "web/templates/*.html"))
 	return &CSRHandler{
 		service: service,
 		tmpl:    tmpl,
