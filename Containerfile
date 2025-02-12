@@ -1,7 +1,7 @@
 FROM golang:1.23.5-alpine3.21 as builder
 WORKDIR /go/src
 COPY . /go/src
-RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /go/bin/csrgen cmd/server/main.go
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /go/bin/csrgen csrgen.go
 RUN chmod +x /go/bin/csrgen
 
 FROM scratch
