@@ -2,47 +2,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const advancedToggle = document.getElementById('advanced-toggle');
     const advancedFields = document.querySelectorAll('.advanced-field');
-    const langSelect = document.getElementById('langSelect');
+    const presetSelect = document.getElementById('presetSelect');
     const keyTypeSelect = document.querySelector('select[name="keyType"]');
     const keySizeSelect = document.querySelector('select[name="keySize"]');
     const signatureAlgorithmSelect = document.querySelector('select[name="signatureAlgorithm"]');
+    const flags = document.querySelectorAll('.flag-icon');
 
-    const currentLang = localStorage.getItem('lang') || 'en';
-    langSelect.value = currentLang;
-    loadTranslations(currentLang);
-
-    langSelect.addEventListener('change', function(event) {
-        const lang = event.target.value;
-        localStorage.setItem('lang', lang);
-        if (lang === 'custom') {
-            setCustomDefaults();
-        } else {
+    // Language handling
+    flags.forEach(flag => {
+        flag.addEventListener('click', function() {
+            const lang = this.dataset.lang;
+            localStorage.setItem('lang', lang);
             loadTranslations(lang);
-        }
+            flags.forEach(f => f.classList.remove('active'));
+            this.classList.add('active');
+        });
     });
 
-function setCustomDefaults() {
-    document.querySelector('input[name="commonName"]').value = "custom.example.com";
-    document.querySelector('input[name="organization"]').value = "Custom Organization";
-    document.querySelector('input[name="organizationalUnit"]').value = "Custom Department";
-    document.querySelector('input[name="country"]').value = "GB";
-    document.querySelector('input[name="state"]').value = "London";
-    document.querySelector('input[name="locality"]').value = "London";
-    document.querySelector('input[name="emailAddress"]').value = "admin@custom.example.com";
-    document.querySelector('input[name="digitalSignature"]').checked = true;
-    document.querySelector('input[name="keyEncipherment"]').checked = true;
-    document.querySelector('input[name="serverAuth"]').checked = true;
-    document.querySelector('input[name="clientAuth"]').checked = true;
-    document.querySelector('input[name="codeSigning"]').checked = true;
-}
+    // Set active flag on load
+    const currentLang = localStorage.getItem('lang') || 'en';
+    document.querySelector(`[data-lang="${currentLang}"]`).classList.add('active');
+    loadTranslations(currentLang);
 
     keyTypeSelect.addEventListener('change', function() {
         const selectedKeyType = this.value;
+        keySizeSelect.innerHTML = '';
+        signatureAlgorithmSelect.innerHTML = '';
 
-    keySizeSelect.innerHTML = '';
-    signatureAlgorithmSelect.innerHTML = '';
-
-    if (selectedKeyType === 'RSA') {
+        if (selectedKeyType === 'RSA') {
             const rsaKeySizes = [
                 { value: '2048', text: '2048-bit' },
                 { value: '3072', text: '3072-bit' },
@@ -87,8 +74,31 @@ function setCustomDefaults() {
                 signatureAlgorithmSelect.add(option);
             });
         }
+    });
 
-    keyTypeSelect.dispatchEvent(new Event('change'));
+    presetSelect.addEventListener('change', function() {
+        const preset = presets[this.value];
+        if (!preset) return;
+
+        advancedToggle.checked = true;
+        advancedFields.forEach(field => field.style.display = 'block');
+
+        Object.entries(preset).forEach(([key, value]) => {
+            if (key === 'keyUsage' || key === 'extendedKeyUsage') {
+                document.querySelectorAll(`input[name="${key}"]`).forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                value.forEach(usage => {
+                    const checkbox = document.querySelector(`input[name="${key}"][value="${usage}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            } else {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) element.value = value;
+            }
+        });
+
+        keyTypeSelect.dispatchEvent(new Event('change'));
     });
     
     const currentTheme = localStorage.getItem('theme');
@@ -135,8 +145,8 @@ function setCustomDefaults() {
             signatureAlgorithm: formData.get('signatureAlgorithm'),
             dnsNames: formData.get('dnsNames').split('\n').filter(x => x.trim()),
             ipAddresses: formData.get('ipAddresses').split('\n').filter(x => x.trim()),
-            keyUsage: Array.from(formData.getAll('keyUsage')),
-            extendedKeyUsage: Array.from(formData.getAll('extendedKeyUsage')),
+            keyUsage: Array.from(document.querySelectorAll('input[name="keyUsage"]:checked')).map(cb => cb.value),
+            extendedKeyUsage: Array.from(document.querySelectorAll('input[name="extendedKeyUsage"]:checked')).map(cb => cb.value),
         };
         
         try {
@@ -161,11 +171,6 @@ function setCustomDefaults() {
             alert('Error generating CSR: ' + error);
         }
     });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const currentLang = localStorage.getItem('lang') || 'en';
-    loadTranslations(currentLang);
 });
 
 async function loadTranslations(lang) {
@@ -212,19 +217,17 @@ function translatePage(translations) {
     });
     
     keyUsageLabels.forEach(label => {
-        const key = label.querySelector('input').name;
         const input = label.querySelector('input').cloneNode(true);
-        if (translations.keyUsageOptions[key]) {
-            label.textContent = translations.keyUsageOptions[key];
+        if (translations.keyUsageOptions[input.value]) {
+            label.textContent = translations.keyUsageOptions[input.value];
             label.insertBefore(input, label.firstChild);
         }
     });
     
     extKeyUsageLabels.forEach(label => {
-        const key = label.querySelector('input').name;
         const input = label.querySelector('input').cloneNode(true);
-        if (translations.extendedKeyUsageOptions[key]) {
-            label.textContent = translations.extendedKeyUsageOptions[key];
+        if (translations.extendedKeyUsageOptions[input.value]) {
+            label.textContent = translations.extendedKeyUsageOptions[input.value];
             label.insertBefore(input, label.firstChild);
         }
     });
@@ -235,18 +238,15 @@ function translatePage(translations) {
     document.querySelectorAll('[data-i18n="copy"]').forEach(element => {
         element.textContent = translations.buttons.copy;
     });
-}
-
-function handleLanguageChange(event) {
-    const lang = event.target.value;
-    localStorage.setItem('lang', lang);
-    loadTranslations(lang);
+    document.querySelectorAll('[data-i18n="download"]').forEach(element => {
+        element.textContent = translations.buttons.download;
+    });
 }
 
 function copyToClipboard(elementId) {
     const text = document.getElementById(elementId).textContent;
     navigator.clipboard.writeText(text).then(() => {
-        const button = document.querySelector(`#${elementId}`).previousElementSibling.querySelector('.copy-button');
+        const button = document.querySelector(`#${elementId}`).nextElementSibling;
         const originalText = button.textContent;
         button.textContent = 'Copied!';
         setTimeout(() => {
